@@ -4,6 +4,7 @@ import com.thoughtworks.ketsu.domain.product.ProductRepository;
 import com.thoughtworks.ketsu.support.ApiSupport;
 import com.thoughtworks.ketsu.support.ApiTestRunner;
 import com.thoughtworks.ketsu.support.TestHelper;
+import org.bson.types.ObjectId;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -65,6 +66,14 @@ public class ProductApiTest extends ApiSupport{
 
     assertThat(get.getStatus(), is(200));
     assertThat(productMap.get("name"), is("desk"));
+  }
+
+  @Test
+  public void should_return_404_when_get_product_by_id_fails() {
+    String id = ObjectId.createFromLegacyFormat(1,1,1).toString();
+    Response get = get("products/" + id);
+
+    assertThat(get.getStatus(), is(404));
   }
 
 }

@@ -60,13 +60,13 @@ public class ProductRepositoryImpl implements ProductRepository {
     DBCollection table = this.db.getCollection("products");
 
     BasicDBObject searchQuery = new BasicDBObject();
-    searchQuery.put("_id", new ObjectId(String.valueOf(id)));
+    searchQuery.put("_id", new ObjectId(id));
     DBCursor cursor = table.find(searchQuery);
 
     if (cursor.hasNext()) {
       return Optional.ofNullable(new Product((BasicDBObject) cursor.next()));
     } else {
-      return null;
+      return Optional.ofNullable(null);
     }
 
   }
