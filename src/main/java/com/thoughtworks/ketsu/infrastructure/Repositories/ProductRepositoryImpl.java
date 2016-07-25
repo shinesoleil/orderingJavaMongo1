@@ -6,6 +6,8 @@ import com.thoughtworks.ketsu.domain.product.ProductRepository;
 import org.bson.types.ObjectId;
 
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -67,5 +69,19 @@ public class ProductRepositoryImpl implements ProductRepository {
       return null;
     }
 
+  }
+
+  @Override
+  public List<Product> find() {
+    List<Product> productList = new ArrayList();
+    DBCollection table = this.db.getCollection("products");
+
+    DBCursor cursor = table.find();
+
+    if (cursor.hasNext()) {
+      productList.add(new Product((BasicDBObject) cursor.next()));
+    }
+
+    return productList;
   }
 }

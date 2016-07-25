@@ -3,6 +3,7 @@ package com.thoughtworks.ketsu.web;
 import com.thoughtworks.ketsu.domain.product.Product;
 import com.thoughtworks.ketsu.domain.product.ProductRepository;
 import com.thoughtworks.ketsu.web.exception.InvalidParameterException;
+import com.thoughtworks.ketsu.web.jersey.Routes;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -42,7 +43,8 @@ public class ProductApi {
     Optional<Product> productOptional = productRepository.create(info);
 
     if (productOptional.isPresent()) {
-      return Response.status(201).build();
+      System.out.println(new Routes().productUrl(productOptional.get()));
+      return Response.created(new Routes().productUrl(productOptional.get())).build();
     } else {
       throw new WebApplicationException(Response.Status.BAD_REQUEST);
     }

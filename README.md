@@ -11,8 +11,7 @@
   
 3. return 201 when POST product with parameters  
  e: 5 min  
-  
-  
+ 
   
 4. return 400 when POST product with invalid parameters  
  e: 8 min  
@@ -26,7 +25,6 @@
   
 6. return 200 when GET products  
  e: 3 min  
-  
   
 
 7. find all products  
