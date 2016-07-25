@@ -1,6 +1,5 @@
 package com.thoughtworks.ketsu.web;
 
-import com.thoughtworks.ketsu.domain.product.Product;
 import com.thoughtworks.ketsu.domain.product.ProductRepository;
 import com.thoughtworks.ketsu.support.ApiSupport;
 import com.thoughtworks.ketsu.support.ApiTestRunner;
@@ -44,13 +43,17 @@ public class ProductApiTest extends ApiSupport{
   }
 
   @Test
-  public void should_find_all_products() {
+  public void should_return_list_of_product_when_get_products() {
     Map<String, Object> info = TestHelper.productMap();
     productRepository.create(info);
 
-    List<Product> productList = productRepository.find();
+    Response get = get("products");
+    List<Map<String, Object>> productList = get.readEntity(List.class);
 
     assertThat(productList.size(), is(1));
-    assertThat(productList.get(0).getName(), is("desk"));
+    assertThat(productList.get(0).get("name"), is("desk"));
+
   }
+
+
 }
