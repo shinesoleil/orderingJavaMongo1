@@ -17,8 +17,7 @@
 4. return 400 when POST product with invalid parameters  
  e: 8 min  
  4: 11 min
-  
-  
+   
     
 5. return url in location when POST product with parameters
   e: 5 min
