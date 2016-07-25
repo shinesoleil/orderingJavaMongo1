@@ -52,4 +52,11 @@ public class ProductApi {
   public List<Product> findAllProduct() {
     return productRepository.find();
   }
+
+  @GET
+  @Path("{productId}")
+  @Produces(MediaType.APPLICATION_JSON)
+  public Product findProductById(@PathParam("productId") String productId) {
+    return productRepository.findById(productId).get();
+  }
 }

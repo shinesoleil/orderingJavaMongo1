@@ -52,8 +52,19 @@ public class ProductApiTest extends ApiSupport{
 
     assertThat(productList.size(), is(1));
     assertThat(productList.get(0).get("name"), is("desk"));
-
   }
 
+  @Test
+  public void should_return_product_json_when_get_product_by_id() {
+    Map<String, Object> info = TestHelper.productMap();
+    productRepository.create(info);
+    String id = String.valueOf(info.get("id"));
+
+    Response get = get("products/" + id);
+    Map<String, Object> productMap = get.readEntity(Map.class);
+
+    assertThat(get.getStatus(), is(200));
+    assertThat(productMap.get("name"), is("desk"));
+  }
 
 }
