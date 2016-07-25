@@ -29,7 +29,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
 
   @Override
-  public Product create(Map<String, Object> info) {
+  public Optional<Product> create(Map<String, Object> info) {
     DBCollection table = this.db.getCollection("products");
 
     BasicDBObject document = new BasicDBObject();
@@ -47,7 +47,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     DBCursor cursor = table.find(searchQuery);
 
     if (cursor.hasNext()) {
-      return new Product((BasicDBObject) cursor.next());
+      return Optional.ofNullable(new Product((BasicDBObject) cursor.next()));
     } else {
       return null;
     }
