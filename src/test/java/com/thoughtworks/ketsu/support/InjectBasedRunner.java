@@ -7,9 +7,8 @@ import com.google.inject.Provider;
 import com.google.inject.name.Names;
 import com.google.inject.spi.Message;
 import com.google.inject.util.Modules;
-//import com.thoughtworks.ketsu.domain.user.EncryptionService;
+import com.thoughtworks.ketsu.infrastructure.records.MongoModels;
 import com.thoughtworks.ketsu.infrastructure.records.Models;
-//import com.thoughtworks.ketsu.infrastructure.util.DefaultEncryptionService;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.jersey.internal.inject.Injections;
 import org.glassfish.jersey.jackson.JacksonFeature;
@@ -25,11 +24,13 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Properties;
 
 import static com.google.inject.Guice.createInjector;
 import static java.util.Arrays.asList;
 import static org.jvnet.hk2.guice.bridge.api.GuiceBridge.getGuiceBridge;
+
+//import com.thoughtworks.ketsu.domain.user.EncryptionService;
+//import com.thoughtworks.ketsu.infrastructure.util.DefaultEncryptionService;
 
 public abstract class InjectBasedRunner extends BlockJUnit4ClassRunner {
   private static final String SERVER_URI = "http://localhost:8888";
@@ -61,29 +62,15 @@ public abstract class InjectBasedRunner extends BlockJUnit4ClassRunner {
   }
 
   private List<AbstractModule> getAbstractModules() {
-    Properties properties = new Properties();
-    String dbname = System.getenv().getOrDefault("DB_NAME", "newketsu");
-    String host = System.getenv().getOrDefault("DB_HOST", "localhost");
-    String port = System.getenv().getOrDefault("DB_PORT", "3307");
-    String username = System.getenv().getOrDefault("DB_USERNAME", "mysql");
-    String password = System.getenv().getOrDefault("DB_PASSWORD", "mysql");
-    String connectURL = String.format(
-      "jdbc:mysql://%s:%s/%s?user=%s&password=%s&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull",
-      host,
-      port,
-      dbname,
-      username,
-      password
-    );
-    System.out.println(connectURL);
-    properties.setProperty("db.url", connectURL);
+
     List<AbstractModule> modules = new ArrayList<>(asList(new AbstractModule[]{
       new AbstractModule() {
         @Override
         protected void configure() {
         }
       },
-      new Models("development", properties),
+      new MongoModels(),
+      new Models(),
       new AbstractModule() {
         @Override
         protected void configure() {
